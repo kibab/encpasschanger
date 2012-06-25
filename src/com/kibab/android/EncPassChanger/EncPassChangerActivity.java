@@ -24,9 +24,6 @@ public class EncPassChangerActivity extends Activity {
 	private BufferedReader rootErrReader;
 	private EditText output;
 
-	public EncPassChangerActivity() {
-	}
-
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -111,6 +108,7 @@ public class EncPassChangerActivity extends Activity {
 		return (code == 200) ? true : false;
 	}
 
+	// TODO: Start this in android.os.AsyncTask to avoid ANRs
 	private String execCmdAndGetReply(String cmd, int maxWait) throws EncPassChangeException {
 		String str = null;
 
@@ -120,14 +118,13 @@ public class EncPassChangerActivity extends Activity {
 			rootOutStream.flush();
 			SystemClock.sleep(maxWait);
 			System.out.println("Reading reply...");
-			//if(rootResReader.ready())
-				str = rootResReader.readLine();
+			str = rootResReader.readLine();
 
 			if (str == null) {
 				if(rootErrReader.ready())
 					str = rootErrReader.readLine();
 				if (str == null) {
-					str = "(will block if read())";//;getString(R.string.unk_error);
+					str = getString(R.string.unk_error);
 				}
 				throw new EncPassChangeException(getString(R.string.exec_fail), str);
 			}
