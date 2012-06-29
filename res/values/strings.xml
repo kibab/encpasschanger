@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="hello">Type new password. Yes, you do not need your old password because the storage is already decrypted.</string>
     <string name="app_name">EncPassChanger</string>
+    <string name="app_description">This app allows users of Android 4.0+ to set device encryption password different from screen unlock password</string>
+
     <string name="go_button">Go!</string>
+    <string name="txt_type_old_pass">For security, type your old password</string>
+    <string name="hello">Type new password:</string>
+    <string name="pass_once_again">And once again, please!</string>
+    
     <string name="su_fail">Getting root rights failed!</string>
-    <string name="pass_invalid">Invalid password!</string>
     <string name="exec_fail">Execution failure</string>
     <string name="unk_error">(unknown error)</string>
     <string name="verify_error">VolManager does not like this password</string>
     <string name="enc_verify_error">VolManager does not give us encryption state</string>
     <string name="enc_not_enabled">Looks like disk encryption is not turned on!</string>
-    <string name="error_when_changing">Error while changing password! Please change password manually in device settings!!!</string>
+    <string name="error_when_changing">Error while changing password! Please change Screen Lock password in Settings/Security/Screen Lock!</string>
     <string name="password_changed">Password changed OK! Now you can use this password for decrypting device after boot</string>
-    <string name="app_description">This app allows users of Android 4.0+ to set device encryption password different from screen unlock password</string>
-    
+
+    <string name="pass_incorrect">Old password is incorrect!</string>
+    <string name="new_pass_incorrect">ERROR! Password was changed, but VDC doesn\'t accept it! Please change password MANUALLY in Settings/Security/Screen Lock!</string>
+    <string name="pass_empty">Empty passwords are not allowed!</string>
+    <string name="newpass_not_the_same">Please, enter EXACT passwords in "New Password" fields!</string>
 </resources>
