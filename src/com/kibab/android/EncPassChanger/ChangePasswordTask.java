@@ -8,7 +8,8 @@ import java.io.InputStreamReader;
 import android.os.AsyncTask;
 import android.os.SystemClock;
 
-public class ChangePasswordTask extends AsyncTask<ChangePassParams, Void, ChangePassResult> {
+public class ChangePasswordTask extends
+		AsyncTask<ChangePassParams, Void, ChangePassResult> {
 
 	// ./base/core/java/android/os/storage/IMountService.java
 	static final int ENCRYPTION_STATE_NONE = 1;
@@ -19,14 +20,14 @@ public class ChangePasswordTask extends AsyncTask<ChangePassParams, Void, Change
 	private BufferedReader rootResReader;
 	private DataOutputStream rootOutStream;
 	private BufferedReader rootErrReader;
-	
+
 	private EncPassChangerActivity resultCb;
 
 	@Override
 	protected ChangePassResult doInBackground(ChangePassParams... changeParams) {
 		resultCb = changeParams[0].getCallingActivity();
 		Process p = null;
-		
+
 		try {
 			p = Runtime.getRuntime().exec("su");
 		} catch (IOException e) {
@@ -34,7 +35,6 @@ public class ChangePasswordTask extends AsyncTask<ChangePassParams, Void, Change
 			e.printStackTrace();
 			return new ChangePassResult(false, R.string.su_fail, e.getMessage());
 		}
-
 
 		rootOutStream = new DataOutputStream(p.getOutputStream());
 		rootResReader = new BufferedReader(new InputStreamReader(
@@ -46,7 +46,8 @@ public class ChangePasswordTask extends AsyncTask<ChangePassParams, Void, Change
 
 		try {
 			// Step 1: Test if encryption is enabled
-			result = execCmdAndGetReply(VDC_EXEC + " cryptfs cryptocomplete", 50);
+			result = execCmdAndGetReply(VDC_EXEC + " cryptfs cryptocomplete",
+					50);
 			if (!parseVDCReply(result)) {
 				throw new EncPassChangeException(R.string.enc_verify_error, "");
 			}
@@ -54,30 +55,38 @@ public class ChangePasswordTask extends AsyncTask<ChangePassParams, Void, Change
 			int ec = Integer.parseInt(toks[1]);
 			if (ec != ENCRYPTION_STATE_OK) {
 				System.out.println("!= ENCRYPTION_STATE_OK");
-				throw new EncPassChangeException(R.string.enc_not_enabled, "");				
+				throw new EncPassChangeException(R.string.enc_not_enabled, "");
 			}
-			
-//			verifyPassword(changeParams[0].getOldPassword(), R.string.pass_incorrect);
+
+			// Step 2: Verify if old password is correct
+			verifyPassword(changeParams[0].getOldPassword(),
+					R.string.pass_incorrect);
 
 			// Step 3: Change password
-			result = execCmdAndGetReply(VDC_EXEC + " cryptfs changepw '" + changeParams[0].getNewPassword() + "'", 1000);
+			result = execCmdAndGetReply(VDC_EXEC + " cryptfs changepw '"
+					+ changeParams[0].getNewPassword() + "'", 1000);
 			if (!parseVDCReply(result)) {
-				throw new EncPassChangeException(R.string.error_when_changing, "");
+				throw new EncPassChangeException(R.string.error_when_changing,
+						"");
 			}
 
 			// Step 4: Verify if this password is correct
-			verifyPassword(changeParams[0].getNewPassword(), R.string.new_pass_incorrect);
+			verifyPassword(changeParams[0].getNewPassword(),
+					R.string.new_pass_incorrect);
 
 		} catch (EncPassChangeException e) {
 			// Display error message
 			e.printStackTrace();
-			return new ChangePassResult(false, e.getMessageCode(), e.getMessage());
+			return new ChangePassResult(false, e.getMessageCode(),
+					e.getMessage());
 		}
-		
+
 		try {
 			execCmdAndGetReply("exit", 20);
 			p.waitFor();
-		} catch (Exception e) {};
+		} catch (Exception e) {
+		}
+		;
 
 		// TODO Auto-generated method stub
 		return new ChangePassResult(true, R.string.password_changed, "OK");
@@ -93,8 +102,8 @@ public class ChangePasswordTask extends AsyncTask<ChangePassParams, Void, Change
 		String[] toks;
 		int ec;
 		// Step 2: Test if supplied password is correct
-		result = execCmdAndGetReply(VDC_EXEC + " cryptfs verifypw '" +
-				str + "'", 1000);
+		result = execCmdAndGetReply(VDC_EXEC + " cryptfs verifypw '" + str
+				+ "'", 1000);
 		if (!parseVDCReply(result)) {
 			System.out.println("VDC cannot veryfypw");
 			throw new EncPassChangeException(R.string.verify_error, "");
@@ -103,12 +112,13 @@ public class ChangePasswordTask extends AsyncTask<ChangePassParams, Void, Change
 		ec = Integer.parseInt(toks[1]);
 		if (ec != 0) {
 			System.out.println("verifypw doesnt like this password");
-			throw new EncPassChangeException(whatToThrow, "");				
+			throw new EncPassChangeException(whatToThrow, "");
 		}
 	}
-	
-	protected void onPostExecute (ChangePassResult result) {
-		this.resultCb.updateResultDisplay(result.getMessageId(), result.getMessage());
+
+	protected void onPostExecute(ChangePassResult result) {
+		this.resultCb.updateResultDisplay(result.getMessageId(),
+				result.getMessage());
 	}
 
 	private boolean parseVDCReply(String reply) {
@@ -117,7 +127,8 @@ public class ChangePasswordTask extends AsyncTask<ChangePassParams, Void, Change
 		return (code == 200) ? true : false;
 	}
 
-	private String execCmdAndGetReply(String cmd, int maxWait) throws EncPassChangeException {
+	private String execCmdAndGetReply(String cmd, int maxWait)
+			throws EncPassChangeException {
 		String str = null;
 
 		System.out.println("Executing command " + cmd);
@@ -129,7 +140,7 @@ public class ChangePasswordTask extends AsyncTask<ChangePassParams, Void, Change
 			str = rootResReader.readLine();
 
 			if (str == null) {
-				if(rootErrReader.ready())
+				if (rootErrReader.ready())
 					str = rootErrReader.readLine();
 				if (str == null) {
 					str = "[unknown]";
