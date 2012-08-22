@@ -14,6 +14,7 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
+        public static final int COPYRIGHT=0x7f050008;
         public static final int doit=0x7f050005;
         public static final int newpass=0x7f050002;
         public static final int newpass_again=0x7f050004;
@@ -29,6 +30,7 @@ public final class R {
     public static final class string {
         public static final int app_description=0x7f040001;
         public static final int app_name=0x7f040000;
+        public static final int copyright=0x7f040012;
         public static final int enc_not_enabled=0x7f04000b;
         public static final int enc_verify_error=0x7f04000a;
         public static final int error_when_changing=0x7f04000c;

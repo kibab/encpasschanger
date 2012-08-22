@@ -21,4 +21,5 @@
     <string name="new_pass_incorrect">ERROR! Password was changed, but VDC doesn\'t accept it! Please change password MANUALLY in Settings/Security/Screen Lock!</string>
     <string name="pass_empty">Empty passwords are not allowed!</string>
     <string name="newpass_not_the_same">Please, enter EXACT passwords in "New Password" fields!</string>
+    <string name="copyright">© Kibab 2012 | http://kibab.com</string>
 </resources>
