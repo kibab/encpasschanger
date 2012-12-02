@@ -22,4 +22,5 @@
     <string name="pass_empty">Empty passwords are not allowed!</string>
     <string name="newpass_not_the_same">Please, enter EXACT passwords in "New Password" fields!</string>
     <string name="copyright">© Kibab 2012 | http://kibab.com</string>
+    <string name="debuglabel">Debug output</string>
 </resources>

@@ -61,6 +61,12 @@
             android:layout_height="wrap_content"
             android:visibility="invisible" />
 
+        <CheckBox
+            android:id="@+id/isDebug"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/debuglabel" />
+
     </LinearLayout>
 
     <EditText
@@ -70,7 +76,8 @@
         android:layout_weight="1"
         android:ems="10"
         android:gravity="center_vertical|top"
-        android:inputType="textMultiLine" >
+        android:inputType="textMultiLine"
+        android:textSize="@dimen/small" >
 
         <requestFocus />
     </EditText>

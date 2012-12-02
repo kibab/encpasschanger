@@ -1,5 +1,7 @@
 package com.kibab.android.EncPassChanger;
 
+import java.util.List;
+
 public class ChangePassResult {
 	
 	private boolean is_success;
@@ -23,5 +25,5 @@ public class ChangePassResult {
 	public String getMessage() {
 		return descr;
 	}
-
+	
 }
